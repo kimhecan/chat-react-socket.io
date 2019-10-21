@@ -1,0 +1,28 @@
+.App {
+    height: 100px;
+}
+
+.AppHeader {
+    align-items: center;
+
+}
+
+.AppTitle {
+    width: 25px;
+    padding: 20px;
+}
+
+.AppRoom {
+    width: 75px;
+    padding: 20px;
+}
+
+.AppBody {
+    flex: 1;
+}
+
+.MessageWrapper {
+    display: flex;
+    flex: 1;
+    width: 75;
+}
