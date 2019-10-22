@@ -23,6 +23,17 @@ module.exports = (server) => {
             console.log('update');
         });
 
+        socket.on('message', (message) => {
+            console.log(socket.id);
+            const { name } = usersService.getUserById(socket.id);
+            console.log(name);
+            socket.broadcast.emit('message', {
+                text: message.text,
+                from: name
+            });
+            console.log('socket message');
+        });
+
         socket.on('disconnect', () => {
             console.log('disconnected..');
             usersService.removeUser(socket.id);
@@ -31,13 +42,5 @@ module.exports = (server) => {
             });
         });
 
-        socket.on('message', (message) => {
-            console.log(socket.id);
-            const { name } = usersService.getUserById(socket.id);
-            socket.broadcast.emit('message', {
-                text: message.text,
-                from: name
-            });
-        });
     });
 }

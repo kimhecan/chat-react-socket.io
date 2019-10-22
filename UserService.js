@@ -9,6 +9,7 @@ class UsersService {
     }
 
     getUserById(userId) {
+        console.log(userId, this.users);
         return this.users.find(user => user.id === userId);
     }
 

@@ -1,67 +1,57 @@
 import React , {useState, useEffect} from 'react';
 import io from 'socket.io-client';
-import async from 'async';
+import { List, Avatar, Row, Col } from 'antd';
 
 const socket = io('localhost:8080');
 
 const App = () => {
-
-    console.log('App 컴포넌트');
     
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [text, setText] = useState('');
     const [name, setName] = useState('');
-    
 
     useEffect(() => {
-        console.log('useEffect');
         socket.on('message', (message) => {
-            const messagess = [message, ...messages];
-            setMessages({messagess});
+            const messagess = [...messages, message];
+            setMessages(messagess);
         });
-         socket.on('update', (users) => {
-             setUsers(users);
-             console.log('setUser');
-         });
-        console.log('useEffect after');
-    }, []);
+        socket.on('update', ({users}) => {
+            setUsers(users);
+        });
+    }, [users, messages]);
 
     const handleMessageSubmit = (message) => {
-        console.log('handleMessageSubmit');
-        const messagess = [message, ...messages];
+        const messagess = [...messages, message];
         setMessages(messagess);
         socket.emit('message', message);
     };
 
 
     const handleUserSubmit = (name) => {
-        console.log('handleUserSubmit');
-        setName(name);
         socket.emit('join', name);
+        setName(name);
     };
 
 
     const Layout = () => {
-        console.log('Layout 컴포넌트');
-        return (
-            <div id='App'>
-                <div id='AppHeader'>
-                    <div id='AppTitle'>
-                        ChatApp
-                    </div>
-                    <div id='AppRoom'>
-                        App room
-                     </div>
-                </div>
-                 <div id='AppBody' style={{ width: '70px', height: '100px', border: '1px solid black'}}>
-                     <UserList users={users} />
-                    <div id='MessageWrapper' style={{ width: '50px', height: '70px', border: '1px solid black' }}>
-                        <MessageList messages={messages} />
-                        <MessageForm onMessageSubmit={message => handleMessageSubmit(message)} name={name}/>
-                    </div>
-                </div>
-            </div>
+        return(
+            <>
+                 <Row>
+                    <Col span={8}>
+                        <UserList users={users} />
+                    </Col>
+                    <Col span={16}>
+                        {messages.length !== 0 ?
+                            <div> 
+                                <MessageList messages={messages} />
+                                <MessageForm onMessageSubmit={message => handleMessageSubmit(message)} name={name}/>
+                            </div>
+                            :
+                            <MessageForm onMessageSubmit={message => handleMessageSubmit(message)} name={name}/>
+                        }
+                    </Col>
+                </Row>
+            </>
         )
     }
 
@@ -71,14 +61,13 @@ const App = () => {
 
     return (
         <>
-         {name !== '' ? Layout() : renderUserForm()}
+         {(name !== '' && users !== null) ? Layout() : renderUserForm()}
         </>
     )
 };
 
 
 const UserForm = (onUserSubmit) => {
-    console.log('UserForm 컴포넌트');
     const [name, setName] = useState('');
 
     const handleSubmit = (e) => {
@@ -107,36 +96,33 @@ const UserForm = (onUserSubmit) => {
     )
 };
 
-
-
-const UserList = (users) => {
-    
-    console.log('UserList 컴포넌트');
-    console.log(users);
+const UserList = ({users}) => {
     return (
         <>
-          <div className='Users'>
-            <div className='UsersOnline'>
-                {users.length} people online
-            </div>
-            <ul className='UsersList'>
-                {
-                   users.map((user) => {
-                       return (
-                        <li key={user.id} className='UserItem'>
-                            {user.name}
-                        </li>
-                        );
-                    })
-                }
-            </ul>
-          </div>
+          <div>
+            <List
+             itemLayout="horizontal"
+             dataSource={users}
+             renderItem={item => (
+             <List.Item>
+                <List.Item.Meta
+                 title={<a>{item.name}</a>}
+                 />
+             </List.Item>
+            )}
+           />
+         </div> 
         </>
     )
 };
 
 
-const MessageForm = (onMessageSubmit, name) => {
+
+
+
+const MessageForm = (props) => {
+
+    const { name, onMessageSubmit } = props;
 
     const [text, setText] = useState('');
 
@@ -170,7 +156,9 @@ const MessageForm = (onMessageSubmit, name) => {
     )
 }
 
-const Message = (key, from, text) => {
+const Message = (props) => {
+
+    const { from, text } = props;
 
     return (
         <div>
@@ -180,12 +168,14 @@ const Message = (key, from, text) => {
     )
 }
 
-const MessageList = (messages) => {
-
+const MessageList = ({messages}) => {
     return (
         <div>
         {
             messages.map((message, i) => {
+                if (message === undefined) {
+                    return;
+                }
                 return (
                     <Message
                        key={i}
