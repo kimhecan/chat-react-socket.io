@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "startServer": "node server.js"
   },
-  "author": "ZeroCho",
+  "author": "",
   "license": "MIT",
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.5.5",

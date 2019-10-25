@@ -2,7 +2,7 @@ import React , {useState, useEffect} from 'react';
 import io from 'socket.io-client';
 import { List, Avatar, Row, Col } from 'antd';
 
-const socket = io('localhost:8080');
+const socket = io('localhost:8081');
 
 const App = () => {
     
@@ -35,23 +35,21 @@ const App = () => {
 
     const Layout = () => {
         return(
-            <>
-                 <Row>
-                    <Col span={8}>
-                        <UserList users={users} />
-                    </Col>
-                    <Col span={16}>
-                        {messages.length !== 0 ?
-                            <div> 
-                                <MessageList messages={messages} />
-                                <MessageForm onMessageSubmit={message => handleMessageSubmit(message)} name={name}/>
-                            </div>
-                            :
+            <Row>
+                <Col span={8}>
+                    <UserList users={users} />
+                </Col>
+                <Col span={16}>
+                    {messages.length !== 0 ?
+                        <div> 
+                            <MessageList messages={messages} />
                             <MessageForm onMessageSubmit={message => handleMessageSubmit(message)} name={name}/>
-                        }
-                    </Col>
-                </Row>
-            </>
+                        </div>
+                        :
+                        <MessageForm onMessageSubmit={message => handleMessageSubmit(message)} name={name}/>
+                    }
+                </Col>
+            </Row>
         )
     }
 
