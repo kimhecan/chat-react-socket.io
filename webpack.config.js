@@ -9,7 +9,7 @@ module.exports = {
     },
 
     entry: {
-        app: ['./client'],
+        app: ['./src'],
     },
     module: {
         rules:[{
@@ -32,4 +32,4 @@ module.exports = {
         filename: 'app.js',
     }
 
-}
+};

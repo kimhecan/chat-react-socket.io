@@ -2,10 +2,10 @@ import React , {useState, useEffect} from 'react';
 import io from 'socket.io-client';
 import { List, Avatar, Row, Col } from 'antd';
 
-const socket = io('localhost:8080');
+const socket = io('localhost:8081');
 
 const App = () => {
-    
+
     const [users, setUsers] = useState(null);
     const [messages, setMessages] = useState([]);
     const [name, setName] = useState('');
@@ -42,7 +42,7 @@ const App = () => {
                     </Col>
                     <Col span={16}>
                         {messages.length !== 0 ?
-                            <div> 
+                            <div>
                                 <MessageList messages={messages} />
                                 <MessageForm onMessageSubmit={message => handleMessageSubmit(message)} name={name}/>
                             </div>
@@ -81,7 +81,7 @@ const UserForm = (onUserSubmit) => {
 
 
     return (
-        <> 
+        <>
          <form className='UserForm' onSubmit={handleSubmit}>
              이름:
              <input
@@ -92,7 +92,7 @@ const UserForm = (onUserSubmit) => {
              />
              <button type="submit">버튼버튼</button>
          </form>
-        </> 
+        </>
     )
 };
 
@@ -111,7 +111,7 @@ const UserList = ({users}) => {
              </List.Item>
             )}
            />
-         </div> 
+         </div>
         </>
     )
 };
