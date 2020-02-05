@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Icon } from 'antd';
 
 
 const UserForm = ({onUserSubmit}) => {
@@ -17,9 +17,18 @@ const UserForm = ({onUserSubmit}) => {
 
   return (
       <> 
-       <Form className='UserForm' onSubmit={handleSubmit}>
-          <Input type= "text" value={name} placeholder="Username" onChange={handleChange} />   
-          <Button type="primary" htmlType="submit">버튼버튼</Button>
+       <Form className='UserForm' onSubmit={handleSubmit} style={{textAlign: 'center', marginTop: '70px'}}>
+          <Input
+            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+            type= "text"
+            placeholder="Username" 
+            onChange={handleChange}
+            value={name}
+            style={{width: '500px', height: '50px'}}
+             />
+          <br/>
+          <br/>
+          <Button type="primary" htmlType="submit" style={{width: '500px', backgroundColor: 'rgb(15, 76, 129)', borderColor: 'rgb(15 ,76, 129)'}}>채팅방 입장</Button>
        </Form>
       </> 
   )

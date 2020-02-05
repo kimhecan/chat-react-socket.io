@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Form, Input } from 'antd';
 
 const MessageForm = ({name, onMessageSubmit}) => {
 
@@ -21,15 +22,15 @@ const MessageForm = ({name, onMessageSubmit}) => {
 
   return (
       <>
-        <form className='MessageForm' onSubmit={handleSubmit}>
-            <input
+        <Form className='MessageForm' onSubmit={handleSubmit}>
+            <Input
               className='MessageInput'
               onChange={changeHandler}
               value={text}
               placeholder="Message"
               autoFocus
             />
-        </form>
+        </Form>
       </>
   )
 }

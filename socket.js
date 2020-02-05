@@ -28,7 +28,7 @@ module.exports = (server) => {
             const { name } = usersService.getUserById(socket.id);
             console.log(name);
             socket.broadcast.emit('message', {
-                text: message.text,
+                text: message.text+'+',
                 from: name
             });
             console.log('socket message');

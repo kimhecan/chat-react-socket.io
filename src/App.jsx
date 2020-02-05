@@ -46,7 +46,7 @@ const App = () => {
                 <Col span={16}>
                     {messages.length !== 0 ?
                         <div> 
-                            <MessageList messages={messages} />
+                            <MessageList messages={messages}/>
                             <MessageForm onMessageSubmit={message => handleMessageSubmit(message)} name={name}/>
                         </div>
                         :
